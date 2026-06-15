@@ -1,0 +1,5 @@
+{
+  "name": "Socrates: The Math Tutor",
+  "description": "A compassionate, Socratic AI tutor that helps you solve math problems step-by-step through image analysis and conceptual dialogue.",
+  "requestFramePermissions": ["camera"]
+}
