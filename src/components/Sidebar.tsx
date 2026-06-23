@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus, MessageCircle, Trash2, GraduationCap,
@@ -54,8 +54,7 @@ function ProjectFolder({
   };
 
   return (
-    <motion.div
-      layout
+    <div
       className={cn(
         'rounded-xl transition-all duration-200',
         isDragOver && 'bg-amber-50 ring-1 ring-amber-200'
@@ -145,29 +144,25 @@ function ProjectFolder({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
-function SessionItem({
+const SessionItem = memo(function SessionItem({
   session, isActive, onSelect, onDelete
 }: { session: ChatSession; isActive: boolean; onSelect: () => void; onDelete: () => void }) {
   return (
-    <motion.div
-      layout
+    <div
       onClick={onSelect}
-      whileHover={{ x: 2 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
       className={cn(
         'flex items-start gap-2 p-2 rounded-xl cursor-pointer group transition-all duration-150',
         isActive
           ? 'bg-white shadow-sm border border-stone-200'
-          : 'hover:bg-white/60 border border-transparent'
+          : 'hover:bg-stone-100 border border-transparent'
       )}
-      // Standard HTML drag (cast via onDragStart native event)
       draggable
-      onDragStart={(e: React.DragEvent<HTMLDivElement> | any) => {
-        if (e.dataTransfer) e.dataTransfer.setData('sessionId', session.id);
+      onDragStart={(e: React.DragEvent<HTMLDivElement>) => {
+        e.dataTransfer.setData('sessionId', session.id);
       }}
     >
       <MessageCircle className={cn('w-3.5 h-3.5 mt-0.5 shrink-0 transition-colors', isActive ? 'text-stone-900' : 'text-stone-400')} />
@@ -175,20 +170,19 @@ function SessionItem({
         <div className="text-xs font-medium truncate text-stone-800">{session.title}</div>
         <div className="text-[10px] text-stone-400 mt-0.5">{new Date(session.updatedAt).toLocaleDateString()}</div>
       </div>
-      <motion.button
-        whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
+      <button
         onClick={e => { e.stopPropagation(); onDelete(); }}
         className="p-1 opacity-0 group-hover:opacity-100 hover:bg-red-50 hover:text-red-600 rounded text-stone-400 shrink-0 transition-all"
       >
         <Trash2 className="w-3 h-3" />
-      </motion.button>
-    </motion.div>
+      </button>
+    </div>
   );
-}
+});
 
 // ─── Main Sidebar ─────────────────────────────────────────────────────────────
 
-export default function Sidebar({
+export default memo(function Sidebar({
   sessions, projects, currentSessionId,
   onSelectSession, onNewChat, onDeleteSession,
   onNewProject, onDeleteProject, onRenameProject, onMoveSession,
@@ -390,9 +384,8 @@ export default function Sidebar({
           ) : (
             /* Guest: Sign In CTA */
             <div className="space-y-2">
-              <div className="px-2 py-2 bg-gradient-to-r from-amber-50 to-stone-50 rounded-xl border border-amber-100">
-                <div className="flex items-start gap-2 mb-2.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+              <div className="px-3 py-3.5 bg-stone-50 rounded-xl border border-stone-200/60 shadow-sm">
+                <div className="mb-2.5">
                   <p className="text-[11px] text-stone-600 leading-relaxed">
                     <span className="font-semibold text-stone-800">Sign in</span> to save your chats, create projects, and sync across devices.
                   </p>
@@ -402,7 +395,7 @@ export default function Sidebar({
                   whileHover={{ scale: 1.02, backgroundColor: '#1c1917' }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                  className="w-full bg-stone-900 text-white text-xs font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md shadow-stone-200"
+                  className="w-full bg-stone-900 text-white text-xs font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-sm"
                 >
                   <LogIn className="w-3.5 h-3.5" />
                   Sign In or Create Account
@@ -414,4 +407,4 @@ export default function Sidebar({
       </motion.aside>
     </>
   );
-}
+});

@@ -160,6 +160,8 @@ function AppInner() {
     setCurrentSessionId(null);
   }, []);
 
+  const closeSidebar = useCallback(() => setIsSidebarOpen(false), []);
+
   const createNewSession = useCallback(() => {
     const s = createSession();
     setSessions(prev => [s, ...prev]);
@@ -334,7 +336,7 @@ function AppInner() {
           onMoveSession={moveSession}
           onGoHome={goHome}
           isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
+          onClose={closeSidebar}
         />
 
         {/* Main Content */}
