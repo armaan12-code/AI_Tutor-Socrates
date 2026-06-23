@@ -9,16 +9,37 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
-body {
-  @apply bg-[#fdfcfb] text-stone-900 font-sans;
+/* ─── Base ────────────────────────────────────────────────────────────── */
+
+html {
+  /* Prevent bounce on iOS */
+  overscroll-behavior: none;
+  /* Use dynamic viewport height on mobile browsers */
+  height: 100%;
 }
 
+body {
+  @apply bg-[#fdfcfb] text-stone-900 font-sans;
+  height: 100%;
+  /* iOS safe areas */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+#root {
+  height: 100%;
+}
+
+/* ─── Markdown / Prose ─────────────────────────────────────────────── */
+
 .markdown-body {
-  @apply prose prose-stone max-w-none;
+  @apply prose prose-stone max-w-none text-sm;
 }
 
 .markdown-body p {
-  @apply mb-4 leading-relaxed;
+  @apply mb-3 leading-relaxed;
 }
 
 .markdown-body strong {
@@ -26,6 +47,56 @@ body {
 }
 
 .markdown-body code {
-  @apply font-mono bg-stone-100 px-1 rounded text-sm;
+  @apply font-mono bg-stone-100 px-1 rounded text-xs;
 }
 
+/* ─── Scrollbar ─────────────────────────────────────────────────────── */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d6d3d1 transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d6d3d1;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .custom-scrollbar {
+    scrollbar-width: none;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── Mobile input fix (prevent zoom on iOS) ─────────────────────── */
+
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── Touch tap highlight ────────────────────────────────────────── */
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Sidebar desktop layout ────────────────────────────────────── */
+
+@media (min-width: 1024px) {
+  .sidebar-wrapper aside {
+    position: relative !important;
+    transform: translateX(0) !important;
+  }
+}
