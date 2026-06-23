@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/tutor/stream",
+      "destination": "/api/tutor"
+    },
+    {
+      "source": "/api/tutor",
+      "destination": "/api/tutor"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api"
     },

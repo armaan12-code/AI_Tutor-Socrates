@@ -92,11 +92,4 @@ button, a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ─── Sidebar desktop layout ────────────────────────────────────── */
 
-@media (min-width: 1024px) {
-  .sidebar-wrapper aside {
-    position: relative !important;
-    transform: translateX(0) !important;
-  }
-}

@@ -227,15 +227,17 @@ export default memo(function Sidebar({
       </AnimatePresence>
 
       {/* Sidebar panel */}
-      <motion.aside
-        initial={false}
-        animate={{ x: isOpen ? 0 : '-100%' }}
-        transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-        className="fixed top-0 left-0 h-full w-72 bg-stone-50 border-r border-stone-200 flex flex-col z-40 lg:relative lg:translate-x-0 lg:z-auto"
-        style={{ willChange: 'transform' }}
+      <aside
+        className={cn(
+          "fixed top-0 left-0 h-full bg-stone-50 border-stone-200 flex flex-col z-40 transition-all duration-300 ease-in-out",
+          isOpen
+            ? "translate-x-0 w-72 opacity-100 border-r"
+            : "-translate-x-full lg:translate-x-0 lg:w-0 lg:border-r-0 lg:opacity-0",
+          "lg:relative lg:z-auto overflow-hidden"
+        )}
       >
-        {/* ── Top: Logo + New Chat ───────────────────────────────── */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-stone-100">
+        <div className="w-72 h-full flex flex-col shrink-0">
+          <div className="flex items-center justify-between px-4 py-4 border-b border-stone-100">
           {/* Clickable logo → home */}
           <motion.button
             onClick={() => { onGoHome(); onClose(); }}
@@ -404,7 +406,8 @@ export default memo(function Sidebar({
             </div>
           )}
         </div>
-      </motion.aside>
-    </>
-  );
+      </div>
+    </aside>
+  </>
+);
 });
