@@ -24,7 +24,10 @@ app.use('/api/tutor', tutorRouter);
 
 // Health check
 app.get('/api/health', (_req, res) => res.json({ status: 'ok', timestamp: Date.now() }));
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n🏛️  Socrates API server running at http://localhost:${PORT}\n`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`\n🏛️  Socrates API server running at http://localhost:${PORT}\n`);
-});
+export default app;
